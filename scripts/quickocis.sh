@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euxo pipefail
+
 #
 # Quick and dirty quickstart script to fire up a local ocis instance.
 # Klaas Freitag <kfreitag@owncloud.com>
@@ -56,15 +58,17 @@ chmod 755 ${dlfile}
 
 mkdir data config
 
-export OCIS_CONFIG_DIR=`pwd`/config
-export OCIS_BASE_DATA_PATH=`pwd`/data
+export OCIS_CONFIG_DIR="$(pwd)/config"
+export OCIS_BASE_DATA_PATH="$(pwd)/data"
 
 ./${dlfile} init --insecure yes --ap admin
 
 echo '#!/bin/bash
-cd "$(dirname "$0")"' > runocis.sh
-echo "export OCIS_CONFIG_DIR=`pwd`/config
-export OCIS_BASE_DATA_PATH=`pwd`/data
+SCRIPT_DIR="$(dirname "$(readlink -f "${0}")")"
+cd "${SCRIPT_DIR}"' > runocis.sh
+
+echo "export OCIS_CONFIG_DIR=${OCIS_CONFIG_DIR}
+export OCIS_BASE_DATA_PATH=${OCIS_BASE_DATA_PATH}
 
 export OCIS_INSECURE=true
 export OCIS_URL=https://localhost:9200
@@ -72,7 +76,7 @@ export IDM_CREATE_DEMO_USERS=true
 export PROXY_ENABLE_BASIC_AUTH=true
 export OCIS_LOG_LEVEL=warning
 
-./${dlfile} server
+./"${dlfile}" server
 " >> runocis.sh
 
 chmod 755 runocis.sh
@@ -83,6 +87,7 @@ echo "*** This is a fragile test setup, not suitable for production! ***"
 echo "    If you stop this script now, you can run your test ocis again"
 echo "    using the script ${sandbox}/runocis.sh"
 echo ""
+echo "    Find documentation at https://doc.owncloud.com/ocis/next/"
 
 ./runocis.sh
 
