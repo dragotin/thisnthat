@@ -29,8 +29,9 @@ function backup_file () {
     fi
 }
 
-dlversion="2.0.0"
-dlurl="https://download.owncloud.com/ocis/ocis/stable/${dlversion}/"
+dlrepo="daily"
+dlversion="testing"
+dlurl="https://download.owncloud.com/ocis/ocis/${dlrepo}"
 dlarch="amd64"
 
 sandbox="ocis-sandbox"
@@ -48,9 +49,9 @@ fi
 dlfile="ocis-${dlversion}-${os}-${dlarch}"
 
 # download
-echo "Downloading ${dlurl}${dlfile}"
+echo "Downloading ${dlurl}/${dlfile}"
 
-wget -q --show-progress "${dlurl}${dlfile}"
+wget -q --show-progress "${dlurl}/${dlfile}"
 chmod 755 ${dlfile}
 
 mkdir data config
