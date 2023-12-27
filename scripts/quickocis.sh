@@ -8,7 +8,7 @@ set -euxo pipefail
 #
 
 # Call this script directly from github:
-# wget -O - https://raw.githubusercontent.com/dragotin/thisnthat/master/scripts/quickocis.sh | /bin/bash
+# curl -L https://owncloud.com/runocis.sh | /bin/bash
 
 # This function is borrowed from openSUSEs /usr/bin/old, thanks.
 function backup_file () {
@@ -57,7 +57,7 @@ dlfile="ocis-${dlversion}-${os}-${dlarch}"
 # download
 echo "Downloading ${dlurl}/${dlfile}"
 
-wget -q --show-progress "${dlurl}/${dlfile}"
+curl -L -o "${dlfile}" --progress-bar "${dlurl}/${dlfile}"
 chmod 755 ${dlfile}
 
 mkdir data config
