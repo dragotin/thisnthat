@@ -31,12 +31,12 @@ function backup_file () {
     fi
 }
 
-dlrepo="daily"
-dlversion="testing"
-dlurl="https://download.owncloud.com/ocis/ocis/${dlrepo}"
+dlrepo="stable"
+dlversion="4.0.5"
+dlurl="https://download.owncloud.com/ocis/ocis/${dlrepo}/${dlversion}"
 dlarch="amd64"
 
-sandbox="ocis-sandbox"
+sandbox="ocis-sandbox-${dlversion}"
 
 # Create a sandbox
 [ -d "./${sandbox}" ] && backup_file ${sandbox}
@@ -46,6 +46,10 @@ os="linux"
 
 if [[ $OSTYPE == 'darwin'* ]]; then
   os="darwin"
+fi
+
+if [[ $(uname -m) == 'aarch64'* ]]; then
+  dlarch="arm64"
 fi
 
 dlfile="ocis-${dlversion}-${os}-${dlarch}"
@@ -61,6 +65,9 @@ mkdir data config
 export OCIS_CONFIG_DIR="$(pwd)/config"
 export OCIS_BASE_DATA_PATH="$(pwd)/data"
 
+host="$(hostname)"
+echo "Using hostname $host"
+
 ./${dlfile} init --insecure yes --ap admin
 
 echo '#!/bin/bash
@@ -71,7 +78,7 @@ echo "export OCIS_CONFIG_DIR=${OCIS_CONFIG_DIR}
 export OCIS_BASE_DATA_PATH=${OCIS_BASE_DATA_PATH}
 
 export OCIS_INSECURE=true
-export OCIS_URL=https://localhost:9200
+export OCIS_URL=https://${host}:9200
 export IDM_CREATE_DEMO_USERS=true
 export PROXY_ENABLE_BASIC_AUTH=true
 export OCIS_LOG_LEVEL=warning
@@ -81,7 +88,7 @@ export OCIS_LOG_LEVEL=warning
 
 chmod 755 runocis.sh
 
-echo "Connect to ownCloud Infinte Scale at https://localhost:9200"
+echo "Connect to ownCloud Infinte Scale at https://${host}:9200"
 echo ""
 echo "*** This is a fragile test setup, not suitable for production! ***"
 echo "    If you stop this script now, you can run your test ocis again"
