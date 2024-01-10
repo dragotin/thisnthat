@@ -88,7 +88,7 @@ export OCIS_LOG_LEVEL=warning
 
 chmod 755 runocis.sh
 
-echo "Connect to ownCloud Infinte Scale at https://${host}:9200"
+echo "Connect to ownCloud Infinite Scale at https://${host}:9200"
 echo ""
 echo "*** This is a fragile test setup, not suitable for production! ***"
 echo "    If you stop this script now, you can run your test ocis again"
