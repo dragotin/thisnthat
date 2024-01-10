@@ -78,7 +78,7 @@ echo "export OCIS_CONFIG_DIR=${OCIS_CONFIG_DIR}
 export OCIS_BASE_DATA_PATH=${OCIS_BASE_DATA_PATH}
 
 export OCIS_INSECURE=true
-export OCIS_URL=https://${host}:9200
+export OCIS_URL=https://localhost:9200
 export IDM_CREATE_DEMO_USERS=true
 export PROXY_ENABLE_BASIC_AUTH=true
 export OCIS_LOG_LEVEL=warning
