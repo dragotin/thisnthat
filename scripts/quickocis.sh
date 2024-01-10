@@ -65,7 +65,9 @@ mkdir data config
 export OCIS_CONFIG_DIR="$(pwd)/config"
 export OCIS_BASE_DATA_PATH="$(pwd)/data"
 
-host="$(hostname)"
+# It is bound to localhost for now to deal with non existing routes
+# to certain host names for example in WSL
+host="localhost"
 echo "Using hostname $host"
 
 ./${dlfile} init --insecure yes --ap admin
@@ -78,7 +80,7 @@ echo "export OCIS_CONFIG_DIR=${OCIS_CONFIG_DIR}
 export OCIS_BASE_DATA_PATH=${OCIS_BASE_DATA_PATH}
 
 export OCIS_INSECURE=true
-export OCIS_URL=https://localhost:9200
+export OCIS_URL=https://${host}:9200
 export IDM_CREATE_DEMO_USERS=true
 export PROXY_ENABLE_BASIC_AUTH=true
 export OCIS_LOG_LEVEL=warning
