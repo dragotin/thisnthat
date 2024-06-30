@@ -32,7 +32,7 @@ function backup_file () {
 }
 
 dlrepo="stable"
-dlversion="5.0.0"
+dlversion="5.0.5"
 dlurl="https://download.owncloud.com/ocis/ocis/${dlrepo}/${dlversion}"
 dlarch="amd64"
 
