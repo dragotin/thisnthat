@@ -31,8 +31,8 @@ function backup_file () {
     fi
 }
 
-dlrepo="stable"
-dlversion="5.0.5"
+dlrepo="rolling"
+dlversion="6.5.0"
 dlurl="https://download.owncloud.com/ocis/ocis/${dlrepo}/${dlversion}"
 dlarch="amd64"
 
