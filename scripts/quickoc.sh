@@ -97,7 +97,6 @@ echo "*** This is a fragile test setup, not suitable for production! ***"
 echo "    If you stop this script now, you can run your test OpenCloud again"
 echo "    using the script ${sandbox}/runopencloud.sh"
 echo ""
-echo "    Find documentation at https://doc.opencloud.eu"
 
 ./runopencloud.sh
 
