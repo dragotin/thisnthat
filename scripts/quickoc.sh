@@ -49,8 +49,8 @@ if [[ $OSTYPE == 'darwin'* ]]; then
   os="darwin"
 fi
 
-if [[ $(uname -m) == 'aarch64'* ]]; then
-  dlarch="arm64"
+if [[ $(uname -s) == "Darwin" && $(uname -m) == "arm64" ]]; then
+    dlarch="arm64"
 fi
 
 dlfile="opencloud-${dlversion}-${os}-${dlarch}"
