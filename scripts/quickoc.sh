@@ -1,14 +1,14 @@
 #!/bin/bash
 
-set -euxo pipefail
+set -euo pipefail
 
 #
-# Quick and dirty quickstart script to fire up a local ocis instance.
-# Klaas Freitag <kfreitag@owncloud.com>
+# Quick and dirty quickstart script to fire up a local OpenCloud instance.
+# Klaas Freitag <k.freitag@opencloud.eu>
 #
 
 # Call this script directly from github:
-# curl -L https://owncloud.com/runocis.sh | /bin/bash
+# curl -L https://raw.githubusercontent.com/dragotin/thisnthat/refs/heads/master/scripts/quickoc.sh | /bin/bash
 
 # This function is borrowed from openSUSEs /usr/bin/old, thanks.
 function backup_file () {
@@ -31,12 +31,13 @@ function backup_file () {
     fi
 }
 
-dlrepo="rolling"
-dlversion="6.5.0"
-dlurl="https://download.owncloud.com/ocis/ocis/${dlrepo}/${dlversion}"
-dlarch="amd64"
+# https://github.com/opencloud-eu/opencloud/releases/download/v1.0.0/opencloud-1.0.0-linux-amd64
 
-sandbox="ocis-sandbox-${dlversion}"
+dlversion="1.0.0"
+dlarch="amd64"
+dlurl="https://github.com/opencloud-eu/opencloud/releases/download/v${dlversion}/"
+
+sandbox="opencloud-sandbox-${dlversion}"
 
 # Create a sandbox
 [ -d "./${sandbox}" ] && backup_file ${sandbox}
@@ -52,7 +53,7 @@ if [[ $(uname -m) == 'aarch64'* ]]; then
   dlarch="arm64"
 fi
 
-dlfile="ocis-${dlversion}-${os}-${dlarch}"
+dlfile="opencloud-${dlversion}-${os}-${dlarch}"
 
 # download
 echo "Downloading ${dlurl}/${dlfile}"
@@ -62,8 +63,8 @@ chmod 755 ${dlfile}
 
 mkdir data config
 
-export OCIS_CONFIG_DIR="$(pwd)/config"
-export OCIS_BASE_DATA_PATH="$(pwd)/data"
+export OC_CONFIG_DIR="$(pwd)/config"
+export OC_BASE_DATA_PATH="$(pwd)/data"
 
 # It is bound to localhost for now to deal with non existing routes
 # to certain host names for example in WSL
@@ -74,29 +75,29 @@ echo "Using hostname $host"
 
 echo '#!/bin/bash
 SCRIPT_DIR="$(dirname "$(readlink -f "${0}")")"
-cd "${SCRIPT_DIR}"' > runocis.sh
+cd "${SCRIPT_DIR}"' > runopencloud.sh
 
-echo "export OCIS_CONFIG_DIR=${OCIS_CONFIG_DIR}
-export OCIS_BASE_DATA_PATH=${OCIS_BASE_DATA_PATH}
+echo "export OC_CONFIG_DIR=${OC_CONFIG_DIR}
+export OC_BASE_DATA_PATH=${OC_BASE_DATA_PATH}
 
-export OCIS_INSECURE=true
-export OCIS_URL=https://${host}:9200
+export OC_INSECURE=true
+export OC_URL=https://${host}:9200
 export IDM_CREATE_DEMO_USERS=true
 export PROXY_ENABLE_BASIC_AUTH=true
-export OCIS_LOG_LEVEL=warning
+export OC_LOG_LEVEL=warning
 
 ./"${dlfile}" server
-" >> runocis.sh
+" >> runopencloud.sh
 
-chmod 755 runocis.sh
+chmod 755 runopencloud.sh
 
-echo "Connect to ownCloud Infinite Scale at https://${host}:9200"
+echo "Connect to OpenCloud via https://${host}:9200"
 echo ""
 echo "*** This is a fragile test setup, not suitable for production! ***"
-echo "    If you stop this script now, you can run your test ocis again"
-echo "    using the script ${sandbox}/runocis.sh"
+echo "    If you stop this script now, you can run your test OpenCloud again"
+echo "    using the script ${sandbox}/runopencloud.sh"
 echo ""
-echo "    Find documentation at https://doc.owncloud.com/ocis/next/"
+echo "    Find documentation at https://doc.opencloud.eu"
 
-./runocis.sh
+./runopencloud.sh
 
